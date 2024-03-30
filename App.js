@@ -29,4 +29,4 @@ CourseRoutes(app);
 ModuleRoutes(app);
 UserRoutes(app);
 
-app.listen(4000);
+app.listen(process.env.PORT || 4000); // get process.env.PORT from the environment variable, or use 4000
