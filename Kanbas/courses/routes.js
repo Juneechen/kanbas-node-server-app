@@ -21,7 +21,8 @@ export default function CourseRoutes(app) {
   // post a new course, body should be JSON object containing course data
   app.post("/api/courses", (req, res) => {
     const course = { ...req.body, _id: new Date().getTime().toString() };
-    Database.courses.push(course); // push() is a method from the array object
+    // Database.courses.push(course); // push() is a method from the array object
+    Database.courses = [course, ...Database.courses]; // add to the database at the beginning
     res.send(course); // send back the course that was added
   });
 

@@ -9,6 +9,7 @@ import Lab5 from "./Lab5.js";
 import CourseRoutes from "./Kanbas/courses/routes.js";
 import ModuleRoutes from "./Kanbas/modules/routes.js";
 import UserRoutes from "./Kanbas/users/routes.js";
+import AssignmentRoutes from "./Kanbas/assignments/routes.js";
 
 const app = express(); //
 // order matters! the order of the middleware is important
@@ -28,5 +29,6 @@ Lab5(app);
 CourseRoutes(app);
 ModuleRoutes(app);
 UserRoutes(app);
+AssignmentRoutes(app);
 
 app.listen(process.env.PORT || 4000); // get process.env.PORT from the environment variable, or use 4000
