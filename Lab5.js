@@ -22,6 +22,16 @@ const todos = [
 ];
 
 const Lab5 = (app) => {
+  // 3.5.1 add a new todo
+  app.post("/a5/todos", (req, res) => {
+    const newTodo = {
+      ...req.body,
+      id: new Date().getTime(),
+    };
+    todos.push(newTodo);
+    res.json(newTodo);
+  });
+
   app.get("/a5/todos", (req, res) => {
     const { completed } = req.query;
     if (completed !== undefined) {
@@ -32,6 +42,36 @@ const Lab5 = (app) => {
     }
 
     res.json(todos);
+  });
+
+  // 3.5.2 Deleting Data
+  app.delete("/a5/todos/:id", (req, res) => {
+    const { id } = req.params;
+    const todo = todos.find((t) => t.id === parseInt(id));
+    if (!todo) {
+      Kanbas / courses / routes.js;
+      res.status(404).json({ message: `Unable to delete Todo with ID ${id}` });
+      return;
+    }
+
+    todos.splice(todos.indexOf(todo), 1);
+    res.sendStatus(200);
+  });
+
+  // 3.5.3 Updating Data
+  app.put("/a5/todos/:id", (req, res) => {
+    const { id } = req.params;
+    const todo = todos.find((t) => t.id === parseInt(id));
+    if (!todo) {
+      res.status(404).json({ message: `Unable to update Todo with ID ${id}` });
+      return;
+    }
+
+    todo.title = req.body.title;
+    todo.description = req.body.description;
+    todo.due = req.body.due;
+    todo.completed = req.body.completed;
+    res.sendStatus(200);
   });
 
   // make sure to implement this BEFORE the /a5/todos/:id,
@@ -82,12 +122,16 @@ const Lab5 = (app) => {
     res.json(todos);
   });
 
+  // A5 - 3.2.4
+  // get module
   app.get("/a5/module", (req, res) => {
     res.json(module);
   });
+  // get module name
   app.get("/a5/module/name", (req, res) => {
     res.json(module.name);
   });
+  // update module name
   app.get("/a5/module/name/:newName", (req, res) => {
     const { newName } = req.params;
     module.name = newName;

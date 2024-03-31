@@ -37,13 +37,17 @@ export default function CourseRoutes(app) {
   app.put("/api/courses/:id", (req, res) => {
     const { id } = req.params;
     const course = req.body;
-    const index = Database.courses.findIndex((c) => c._id === id);
-    if (index === -1) {
-      res.status(404).send("Course with this id not found.");
-    } else {
-      Database.courses[index] = { ...course, _id: id };
-      // res.send(Database.courses[index]);
-      res.sendStatus(204);
-    }
+    // const index = Database.courses.findIndex((c) => c._id === id);
+    // if (index === -1) {
+    //   res.status(404).send("Course with this id not found.");
+    // } else {
+    //   Database.courses[index] = { ...course, _id: id };
+    //   // res.send(Database.courses[index]);
+    //   res.sendStatus(204);
+    // }
+    Database.courses = Database.courses.map((c) =>
+      c._id === id ? { ...c, ...course } : c
+    );
+    res.sendStatus(204);
   });
 }
