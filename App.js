@@ -29,7 +29,7 @@ const app = express(); //
 app.use(
   cors({
     credentials: true, // allow cookies to be sent from the front end to the back end
-    origin: process.env.FRONTEND_URL, // the frontend URL that is allowed to access the server; use different front end URL in dev and in production
+    origin: [process.env.FRONTEND_URL, process.env.A5_FRONTEND_URL], // the frontend URL that is allowed to access the server; use different front end URL in dev and in production
   })
 ); // for every request, apply this cors policy; this needs to be done before things below: app.use(express.json()), etc.
 
@@ -49,18 +49,16 @@ if (process.env.NODE_ENV !== "development") {
   };
 }
 
-// app.use(
-//   session(sessionOptions)
-// );
+app.use(session(sessionOptions));
 
-app.use(
-  // adds to the request object a session object that is managed by the express-session middleware:
-  // intercepts every request, check if there is a session cookie, and if so, retrieve the session object from the session store
-  session({
-    secret: "sashimi", // secret key to sign the session ID cookie, so that it is not tampered with
-    // secret: process.env.SESSION_SECRET, // secret is normally stored in a .env file
-  })
-);
+// app.use(
+//   // adds to the request object a session object that is managed by the express-session middleware:
+//   // intercepts every request, check if there is a session cookie, and if so, retrieve the session object from the session store
+//   session({
+//     secret: "sashimi", // secret key to sign the session ID cookie, so that it is not tampered with
+//     // secret: process.env.SESSION_SECRET, // secret is normally stored in a .env file
+//   })
+// );
 
 app.use(express.json()); // for every request, try parse the req.body as JSON
 
