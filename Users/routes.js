@@ -6,7 +6,7 @@ export default function UserRoutes(app) {
   const register = async (req, res) => {
     const duplicate = await dao.findUserByUsername(req.body.username);
     if (duplicate) {
-      res.status(400).json({ message: "Username already taken" });
+      res.status(400).json({ message: "Username already taken." });
       return;
     }
     const newUser = await dao.createUser(req.body); // req.body is the user object
@@ -24,7 +24,7 @@ export default function UserRoutes(app) {
     // only allow ADMIN to view all users
     const currentUser = req.session["currentUser"];
     if (!currentUser || currentUser.role !== "ADMIN") {
-      res.status(401).send("Unauthorized");
+      res.status(401).send("Unauthorized.");
       return;
     }
     const { role } = req.query;
@@ -45,11 +45,11 @@ export default function UserRoutes(app) {
 
   const updateUser = async (req, res) => {
     const { userId } = req.params;
-    // console.log("updating user", userId, req.body);
     const status = await dao.updateUser(userId, req.body); // status is the number of records updated
-    updatedUser = await dao.findUserById(userId);
-    // console.log("updated user", updatedUser);
-    req.session["currentUser"] = updatedUser; // update the session object
+    // if updating other user, do not update the session object
+    if (userId === req.session["currentUser"]._id) {
+      req.session["currentUser"] = await dao.findUserById(userId);
+    }
     res.json(status);
   };
 
