@@ -10,7 +10,10 @@ export default function UserRoutes(app) {
       return;
     }
     const newUser = await dao.createUser(req.body); // req.body is the user object
-    req.session["currentUser"] = newUser; // update the session object
+    // if logged in as ADMIN and adding new user, do not update the session object
+    if (!req.session["currentUser"]) {
+      req.session["currentUser"] = newUser; // update the session object
+    }
     res.json(newUser);
   };
 

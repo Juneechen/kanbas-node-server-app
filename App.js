@@ -8,9 +8,8 @@ import mongoose from "mongoose";
 // the components that need to interact with the server
 import Hello from "./Hello.js";
 import Lab5 from "./Lab5.js";
-import CourseRoutes from "./Kanbas/courses/routes.js";
-import ModuleRoutes from "./Kanbas/modules/routes.js";
-// import UserRoutes from "./Kanbas/users/routes.js";
+import CourseRoutes from "./Courses/routes.js";
+import ModuleRoutes from "./Modules/routes.js";
 import UserRoutes from "./Users/routes.js";
 import AssignmentRoutes from "./Kanbas/assignments/routes.js";
 
@@ -60,7 +59,8 @@ app.use(session(sessionOptions));
 //   })
 // );
 
-app.use(express.json()); // for every request, try parse the req.body as JSON
+// for every request, try parse the req.body as JSON
+app.use(express.json());
 
 Hello(app);
 Lab5(app);
@@ -69,4 +69,5 @@ ModuleRoutes(app);
 UserRoutes(app);
 AssignmentRoutes(app);
 
-app.listen(process.env.PORT || 4000); // get process.env.PORT from the environment variable, or use 4000
+// get process.env.PORT from the environment variable, or use 4000
+app.listen(process.env.PORT || 4000);
