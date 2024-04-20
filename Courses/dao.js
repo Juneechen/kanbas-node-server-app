@@ -10,3 +10,7 @@ export const createCourse = (course) => courseModel.create(course);
 export const updateCourse = (id, course) =>
   courseModel.updateOne({ _id: id }, { $set: course });
 export const deleteCourse = (id) => courseModel.deleteOne({ _id: id });
+
+// find courses by user id
+export const findCoursesByUserId = (uid) =>
+  courseModel.find({ enrolledByUsers: uid });

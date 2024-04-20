@@ -9,12 +9,18 @@ export default function UserRoutes(app) {
       res.status(400).json({ message: "Username already taken." });
       return;
     }
-    const newUser = await dao.createUser(req.body); // req.body is the user object
-    // if logged in as ADMIN and adding new user, do not update the session object
-    if (!req.session["currentUser"]) {
-      req.session["currentUser"] = newUser; // update the session object
+    try {
+      const newUser = await dao.createUser(req.body); // req.body is the user object
+      // if logged in as ADMIN and adding new user, do not update the session object
+      if (!req.session["currentUser"]) {
+        req.session["currentUser"] = newUser; // update the session object
+      }
+      res.json(newUser);
+    } catch (error) {
+      // e.g., if the user object is missing a required field
+      console.error("error at register:", error.message);
+      res.status(400).json({ message: error.message });
     }
-    res.json(newUser);
   };
 
   const deleteUser = async (req, res) => {
@@ -48,12 +54,22 @@ export default function UserRoutes(app) {
 
   const updateUser = async (req, res) => {
     const { userId } = req.params;
-    const status = await dao.updateUser(userId, req.body); // status is the number of records updated
-    // if updating other user, do not update the session object
-    if (userId === req.session["currentUser"]._id) {
-      req.session["currentUser"] = await dao.findUserById(userId);
+    const user = await dao.findUserById(userId);
+    if (!user) {
+      res.status(404).json({ message: "User not found." });
+      return;
     }
-    res.json(status);
+    try {
+      const status = await dao.updateUser(userId, req.body); // status is the number of records updated
+      console.log("status", status);
+      // if updating other user, do not update the session object
+      if (userId === req.session["currentUser"]._id) {
+        req.session["currentUser"] = await dao.findUserById(userId);
+      }
+      res.json(status);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
   };
 
   const login = async (req, res) => {

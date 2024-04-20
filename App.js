@@ -12,6 +12,7 @@ import CourseRoutes from "./Courses/routes.js";
 import ModuleRoutes from "./Modules/routes.js";
 import UserRoutes from "./Users/routes.js";
 import AssignmentRoutes from "./Kanbas/assignments/routes.js";
+import QuizRoutes from "./Quizzes/routes.js";
 
 const CONNECTION_STRING = process.env.DB_CONNECTION_STRING; // get the database URL from the environment variable
 
@@ -68,6 +69,7 @@ CourseRoutes(app);
 ModuleRoutes(app);
 UserRoutes(app);
 AssignmentRoutes(app);
+QuizRoutes(app);
 
 // get process.env.PORT from the environment variable, or use 4000
 app.listen(process.env.PORT || 4000);
