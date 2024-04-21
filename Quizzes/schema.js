@@ -19,9 +19,9 @@ const questionSchema = new mongoose.Schema(
     prompt: { type: String, required: true, default: "Prompt" },
     points: { type: Number, required: true, default: 1 },
     // optoions and correct answer for each type
-    TF_Options: ["True", "False"],
-    MC_Options: { type: [String], default: [] },
-    correctAnswers: { type: [String], default: [] }, // index is blank number
+    options: { type: [String], default: [] },
+    TF_Options: { type: [String], default: ["True", "False"] },
+    correctAnswer: { type: String, required: true, default: " " },
   }
   // { collection: "questions" }
 );

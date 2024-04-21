@@ -53,8 +53,9 @@ export default function QuizRoutes(app) {
   const createQuestion = async (req, res) => {
     try {
       const { quizId } = req.params;
+      console.log("createQuestion in routes.js; quizId:", quizId);
       const addedQuestion = await dao.createQuestion(quizId, req.body);
-      // console.log("addedQuestion in createQuestion routes:", addedQuestion);
+      console.log("addedQuestion in routes.createQuestion:", addedQuestion);
       res.json(addedQuestion);
     } catch (error) {
       console.log(error);

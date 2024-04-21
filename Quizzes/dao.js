@@ -31,11 +31,11 @@ export const createQuestion = async (quizId, question) => {
   delete question._id;
   try {
     const q = await quizModel.findOne({ _id: quizId });
-    q.questions.push(question);
-    await q.save(); // save the updated quiz
-    const res = await quizModel.updateOne({ _id: quizId }, { $set: q });
-    const updatedQuiz = await quizModel.findOne({ _id: quizId });
-    const addedQuestion = updatedQuiz.questions[updatedQuiz.totalQuestions - 1];
+    q.questions.push(question); // fields will be filled with default values defined in schema
+    await q.save(); // save the updated quiz in the database
+    // const res = await quizModel.updateOne({ _id: quizId }, { $set: q });
+    // const updatedQuiz = await quizModel.findOne({ _id: quizId });
+    const addedQuestion = q.questions[q.questions.length - 1];
     return addedQuestion;
   } catch (error) {
     console.log(error);
@@ -66,13 +66,19 @@ export const updateQuestion = async (quizId, questionId, question) => {
   const index = quiz.questions.findIndex(
     (qt) => qt._id.toString() === questionId
   );
+  if (question.type === "TF") {
+    question.options = ["True", "False"];
+  }
   quiz.questions[index] = question;
   // returns a promise that resolves to the number of records updated
   return quizModel.updateOne({ _id: quizId }, { $set: quiz });
 };
 
 export const deleteQuestion = async (quizId, questionId) => {
+  console.log("quizId in dao.deleteQuestion:", quizId);
+  console.log("questionId in dao.deleteQuestion:", questionId);
   const quiz = await findQuizById(quizId);
+  console.log("quiz in dao.deleteQuestion:", quiz);
   const updatedQuestions = quiz.questions.filter(
     (qt) => qt._id.toString() !== questionId
   );
