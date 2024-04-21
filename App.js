@@ -29,7 +29,11 @@ const app = express(); //
 app.use(
   cors({
     credentials: true, // allow cookies to be sent from the front end to the back end
-    origin: [process.env.FRONTEND_URL, process.env.A5_FRONTEND_URL], // the frontend URL that is allowed to access the server; use different front end URL in dev and in production
+    origin: [
+      process.env.FRONTEND_URL,
+      process.env.A5_FRONTEND_URL,
+      process.env.A6_FRONTEND_URL,
+    ], // the frontend URL that is allowed to access the server; use different front end URL in dev and in production
   })
 ); // for every request, apply this cors policy; this needs to be done before things below: app.use(express.json()), etc.
 
