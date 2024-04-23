@@ -86,22 +86,3 @@ export const deleteQuestion = async (quizId, questionId) => {
   return quizModel.updateOne({ _id: quizId }, { $set: quiz });
   // returns a promise that resolves to the number of records deleted
 };
-
-// // get the total points of a quiz, which is the sum of all points of questions referencing the quizId
-// export const getTotalPoints = async (qid) => {
-//   const questions = await questionModel.find({ quizId: qid });
-//   if (!questions) {
-//     return 0;
-//   }
-//   return questions.reduce((total, question) => total + question.points, 0);
-//   // return type: number
-// };
-
-// // get the total number of questions in a quiz
-// export const getTotalQuestions = async (qid) => {
-//   const questions = await questionModel.find({ quizId: qid });
-//   if (!questions) {
-//     return 0;
-//   }
-//   return questions.length;
-// };

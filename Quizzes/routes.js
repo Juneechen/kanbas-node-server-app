@@ -37,18 +37,6 @@ export default function QuizRoutes(app) {
     res.json(quizzes);
   };
 
-  // const getTotalPoints = async (req, res) => {
-  //   const { qid } = req.params;
-  //   const totalPoints = await dao.getTotalPoints(qid);
-  //   res.json(totalPoints);
-  // };
-
-  // const getTotalQuestions = async (req, res) => {
-  //   const { qid } = req.params;
-  //   const totalQuestions = await dao.getTotalQuestions(qid);
-  //   res.json(totalQuestions);
-  // };
-
   // questions CRUD:
   const createQuestion = async (req, res) => {
     try {
@@ -94,6 +82,7 @@ export default function QuizRoutes(app) {
   app.post("/api/courses/:cid/quizzes", createQuiz);
   app.put("/api/quizzes/:qid", updateQuiz);
   app.delete("/api/quizzes/:qid", deleteQuiz);
+
   // app.get("/api/quizzes/:qid/totalPoints", getTotalPoints);
   // app.get("/api/quizzes/:qid/totalQuestions", getTotalQuestions);
 

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Schema } from "mongoose";
 
 const quizAttemptSchema = new mongoose.Schema(
   {
@@ -18,7 +19,7 @@ const quizAttemptSchema = new mongoose.Schema(
       of: [String], // the user's answer
     },
     // score for the attempt
-    score: Number, // TODO: make into computed field
+    score: Number, // TODO: make computed field?
   },
   { collection: "quizAttempts" }
 );
