@@ -5,7 +5,6 @@ export default function CourseRoutes(app) {
     // if not logged in, return 401
     const currentUser = req.session["currentUser"];
     if (!currentUser) {
-      console.log("coures route findAllCourses: no current user");
       res.status(401).send("findAllCourses: Please log in");
       return;
     }
