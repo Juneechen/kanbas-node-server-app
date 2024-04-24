@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema(
 
     // a list of courses the user is enrolled in
     enrolledCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Courses" }],
+
     // // a map of Quiz _id to a list of QuizAttempt _id that the user has attempted
     // quizAttempts: {
     //   type: Map,

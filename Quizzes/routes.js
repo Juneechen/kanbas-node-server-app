@@ -13,7 +13,7 @@ export default function QuizRoutes(app) {
   };
 
   const createQuiz = async (req, res) => {
-    console.log("createQuiz in routes.js");
+    // console.log("createQuiz in routes.js");
     const { cid } = req.params;
     const quiz = await dao.createQuiz(cid, req.body);
     res.json(quiz);
@@ -21,6 +21,7 @@ export default function QuizRoutes(app) {
 
   const updateQuiz = async (req, res) => {
     const { qid } = req.params;
+    console.log("updateQuiz in routes.js; quiz:", req.body);
     const status = await dao.updateQuiz(qid, req.body);
     res.json(status);
   };
