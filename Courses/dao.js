@@ -12,5 +12,8 @@ export const updateCourse = (id, course) =>
 export const deleteCourse = (id) => courseModel.deleteOne({ _id: id });
 
 // find courses by user id
-export const findCoursesByUserId = (uid) =>
+export const findCoursesForUser = (uid) =>
   courseModel.find({ enrolledByUsers: uid });
+
+export const addEnrolledUser = (cid, uid) =>
+  courseModel.updateOne({ _id: cid }, { $push: { enrolledByUsers: uid } });

@@ -15,3 +15,9 @@ export const findUsersByRole = (role) => userModel.find({ role: role });
 export const updateUser = (userId, user) =>
   userModel.updateOne({ _id: userId }, { $set: user }); // $set is a MongoDB operator; updateOne returns a promise that resolves to the number of records updated
 export const deleteUser = (userId) => userModel.deleteOne({ _id: userId }); // returns a promise that resolves to the number of records deleted
+
+export const addEnrolledCourse = (userId, courseId) =>
+  userModel.updateOne(
+    { _id: userId },
+    { $push: { enrolledCourses: courseId } }
+  );

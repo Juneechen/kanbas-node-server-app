@@ -1,4 +1,5 @@
 import * as dao from "./dao.js";
+import * as courseDao from "../Courses/dao.js";
 
 let updatedUser = null; // global server variable to store the current user
 
@@ -11,11 +12,18 @@ export default function UserRoutes(app) {
     }
     try {
       const newUser = await dao.createUser(req.body); // req.body is the user object
+
+      // enroll the user in a default course with ObjectId("660e0aa6e7704d1f27e97f37")
+      const defaultCourseId = "660e0aa6e7704d1f27e97f37";
+      await dao.addEnrolledCourse(newUser._id, defaultCourseId);
+      await courseDao.addEnrolledUser("660e0aa6e7704d1f27e97f37", newUser._id);
+      const updatedUser = await dao.findUserById(newUser._id);
+
       // if logged in as ADMIN and adding new user, do not update the session object
       if (!req.session["currentUser"]) {
-        req.session["currentUser"] = newUser; // update the session object
+        req.session["currentUser"] = updatedUser; // update the session object
       }
-      res.json(newUser);
+      res.json(updatedUser);
     } catch (error) {
       // e.g., if the user object is missing a required field
       console.error("error at register:", error.message);
@@ -30,6 +38,7 @@ export default function UserRoutes(app) {
   };
 
   const findAllUsers = async (req, res) => {
+    console.log("users routes findAllUsers");
     // only allow ADMIN to view all users
     const currentUser = req.session["currentUser"];
     if (!currentUser || currentUser.role !== "ADMIN") {

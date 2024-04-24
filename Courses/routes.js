@@ -2,6 +2,21 @@ import * as dao from "./dao.js";
 
 export default function CourseRoutes(app) {
   const findAllCourses = async (req, res) => {
+    // if not logged in, return 401
+    const currentUser = req.session["currentUser"];
+    if (!currentUser) {
+      console.log("coures route findAllCourses: no current user");
+      res.status(401).send("findAllCourses: Please log in");
+      return;
+    }
+    // if user role is STUDENT, find only the courses that the student is enrolled in
+    if (currentUser.role === "STUDENT") {
+      const courses = await dao.findCoursesForUser(
+        req.session["currentUser"]._id
+      );
+      res.json(courses);
+      return;
+    }
     const courses = await dao.findAllCourses();
     res.json(courses);
   };
